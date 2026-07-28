@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ecuador Coffee — Globalization Impact Observatory</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">Globalization Intelligence Unit &middot; Economics of Globalization</div>
+  <h1>Ecuador's Coffee Sector in the Global Economy</h1>
+  <p class="subtitle">Trade flows, prices, and macro risk shaping Ecuador's coffee growers and processors — from smallholder green-bean farms to industrial instant-coffee exporters.</p>
+</header>
+
+<div class="kpi-row" id="kpi-row"></div>
+
+<main>
+
+  <section class="card">
+    <h2>Where Ecuador's Coffee Goes</h2>
+    <p class="section-tip">Marker size = export value for the selected year. Click a country for its trade history with Ecuador.</p>
+    <div class="controls">
+      <label for="map-year">Year</label>
+      <select id="map-year"></select>
+    </div>
+    <div class="two-col">
+      <div id="map"></div>
+      <div id="country-detail"><p class="placeholder">Click a destination marker on the map to see its export history.</p></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Export Trend: Value vs. Volume (2015–2024)</h2>
+    <p class="section-tip">Total coffee exports (HS 0901), FOB value in USD vs. net weight in kg.</p>
+    <div class="chart-wrap"><canvas id="chart-trend"></canvas></div>
+    <div class="interpretation" id="trend-note"></div>
+  </section>
+
+  <section class="card">
+    <h2>The Real Story: Raw Beans vs. Instant Coffee Extract</h2>
+    <p class="section-tip">HS 0901 (green/roasted beans) vs. HS 210111 (soluble/instant coffee extract) export value.</p>
+    <div class="chart-wrap short"><canvas id="chart-hs"></canvas></div>
+    <div class="interpretation">
+      <strong>Ecuador's coffee export value is not where you'd expect it.</strong> In 2024, instant/soluble coffee extract (HS 210111) exported <strong>$122.1M</strong> — roughly <strong>10x</strong> the value of raw green beans ($12.2M). This means "local coffee firms" is really two very different populations: smallholder growers exposed to weather and land-use pressure, and a handful of large industrial processors exposed to global commodity and trade-policy risk.
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Ecuador vs. Its Competitors</h2>
+    <p class="section-tip">Total coffee export value (HS 0901), log scale — Ecuador is a minor player next to regional and global exporters.</p>
+    <div class="chart-wrap"><canvas id="chart-competitors"></canvas></div>
+    <div class="interpretation">
+      Ecuador's raw coffee exports ($12–28M/yr) are a rounding error next to Brazil ($11.4B in 2024) and even Colombia ($3.5B) or Peru ($1.1B). Ecuador cannot compete on volume — its opportunity lies in value-added processing (instant coffee, specialty/roasted niches) rather than raw commodity export.
+    </div>
+  </section>
+
+  <div class="two-col">
+    <section class="card">
+      <h2>International Coffee Prices</h2>
+      <p class="section-tip">ICO indicator prices, USD/kg annual average (via World Bank Pink Sheet).</p>
+      <div class="chart-wrap short"><canvas id="chart-prices"></canvas></div>
+    </section>
+    <section class="card">
+      <h2>Domestic Production</h2>
+      <p class="section-tip">Area harvested (ha) vs. yield (kg/ha).</p>
+      <div class="chart-wrap short"><canvas id="chart-production"></canvas></div>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>Risk & Macro Panel</h2>
+    <p class="section-tip">Policy, market, and macroeconomic risk indicators for Ecuador's coffee sector.</p>
+    <div id="risk-panel"></div>
+  </section>
+
+</main>
+
+<footer>
+  Data: UN Comtrade, FAOSTAT, World Bank (WDI &amp; Commodity Markets "Pink Sheet"). Full citations in <code>data/SOURCES.md</code>. Accessed 2026-07-28. Built for the Economics of Globalization semester project — Coffee Sector, Ecuador.
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
