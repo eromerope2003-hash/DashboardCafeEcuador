@@ -50,6 +50,65 @@ const TARIFF_ROW_KEY = {
   NLD: "EU (France, Germany, Netherlands, Belgium)", BEL: "EU (France, Germany, Netherlands, Belgium)",
 };
 
+// Certifications / compliance requirements per market — structured directly from the
+// `non_tariff_notes` free-text column of data/tariffs_and_trade_agreements.csv (same
+// citations, see data/SOURCES.md). "mandatory" = legally required to import coffee into
+// that market per the cited sources; "voluntary" = market-preferred/commercial certifications
+// mentioned in the sources as boosting demand, not legally required. Where the underlying
+// research pass did not turn up specific certification detail for a market, gapNote says so
+// explicitly rather than guessing — per this project's no-fabricated-data rule.
+const CERTIFICATIONS = {
+  USA: {
+    mandatory: [
+      { name: "FDA Food Facility Registration", desc: "Registro obligatorio de la planta exportadora ante la FDA (bajo FSMA)." },
+      { name: "FDA Foreign Supplier Verification Program (FSVP)", desc: "El importador en EE.UU. debe verificar que el proveedor ecuatoriano cumple los estándares de seguridad alimentaria de EE.UU." },
+      { name: "FDA Prior Notice", desc: "Notificación previa obligatoria a la FDA antes de que el embarque llegue a puerto/aeropuerto de EE.UU." },
+    ],
+    voluntary: [],
+    gapNote: null,
+  },
+  FRA: null, DEU: null, NLD: null, BEL: null, // filled below, all four share the EU row
+  CHN: {
+    mandatory: [
+      { name: "Registro GACC", desc: "Registro obligatorio de la instalación exportadora de alimentos (incl. café) ante la Administración General de Aduanas de China." },
+    ],
+    voluntary: [],
+    gapNote: "El IVA de importación (~13%) aplica sobre el arancel; no es una certificación pero sube el costo total de entrada.",
+  },
+  JPN: {
+    mandatory: [],
+    voluntary: [],
+    gapNote: "La Food Sanitation Act y la Plant Protection Act de Japón aplican de forma general a todas las importaciones de café, pero esta investigación no encontró el detalle específico de trámites/certificados exigidos — ver data/SOURCES.md.",
+  },
+  CHL: {
+    mandatory: [],
+    voluntary: [],
+    gapNote: "No se identificaron barreras SPS/fitosanitarias específicas para café en la investigación disponible (no verificado directamente con el SAG de Chile).",
+  },
+  COL: {
+    mandatory: [],
+    voluntary: [],
+    gapNote: "No se identificaron requisitos SPS/fitosanitarios específicos para café en la investigación disponible para este mercado.",
+  },
+  KOR: {
+    mandatory: [],
+    voluntary: [],
+    gapNote: "No se identificó el detalle de requisitos SPS/fitosanitarios para café en la investigación disponible. Sí existe una exención temporal del IVA (10%) para café verde hasta el 31-Dic-2027, que no es una certificación.",
+  },
+};
+const EU_CERT = {
+  mandatory: [
+    { name: "EUDR — EU Deforestation Regulation (Reg. 2023/1115)", desc: "Declaración de debida diligencia + datos de geolocalización de las fincas de origen, obligatoria para todo el café que entra a la UE. Plazo: grandes operadores/comerciantes Dic-2026, micro/pequeñas empresas Jun-2027." },
+  ],
+  voluntary: [
+    { name: "Certificación Orgánica (UE)", desc: "Demanda estructuralmente fuerte en Alemania (~49,000 t de café verde orgánico importado en 2024) y Bélgica (~30,000 t en 2023); no es obligatoria por ley, pero facilita el acceso a esos segmentos." },
+    { name: "Fairtrade", desc: "Alemania es el mayor mercado Fairtrade de café del mundo por volumen (~5.3% del consumo alemán certificado Fairtrade, 2024)." },
+    { name: "Rainforest Alliance", desc: "~15% de las importaciones de café certificado Rainforest Alliance de toda la UE pasan por Países Bajos (puerto de Róterdam)." },
+  ],
+  gapNote: "No se encontraron particularidades específicas de Francia en esta investigación (gap). Los cuatro países de la UE comparten el mismo arancel externo y el mismo marco regulatorio (EUDR).",
+};
+CERTIFICATIONS.FRA = EU_CERT; CERTIFICATIONS.DEU = EU_CERT; CERTIFICATIONS.NLD = EU_CERT; CERTIFICATIONS.BEL = EU_CERT;
+
 // Product-type filter definition: each option maps to the HS code(s) it covers
 // in ecuador_coffee_exports_by_hscode_destination_full.csv / ecuador_coffee_exports_by_hscode.csv,
 // plus which tariff column in tariffs_and_trade_agreements.csv applies to it.

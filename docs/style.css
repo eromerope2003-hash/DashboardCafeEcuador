@@ -92,6 +92,7 @@ main {
   margin: 0 auto;
   padding: 1.6rem 2rem 3rem;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.6rem;
 }
 
@@ -116,12 +117,12 @@ section.card .section-tip {
 
 .two-col {
   display: grid;
-  grid-template-columns: 1.4fr 1fr;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   gap: 1.4rem;
 }
 
 @media (max-width: 860px) {
-  .two-col { grid-template-columns: 1fr; }
+  .two-col { grid-template-columns: minmax(0, 1fr); }
 }
 
 .chart-wrap { position: relative; height: 320px; }
@@ -344,3 +345,131 @@ table.data-table.semaphore th:first-child { text-align: left; }
 }
 
 .rec-rationale strong { color: var(--bean); }
+
+/* ============================================================
+   Guide card + table of contents + chapter titles
+   ============================================================ */
+.guide-card {
+  background: linear-gradient(135deg, #fff6e8, var(--paper));
+  border: 1px solid #e8d3ac;
+}
+
+.guide-steps {
+  margin: 0 0 1rem;
+  padding-left: 1.3rem;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--roast);
+}
+
+.guide-steps li { margin-bottom: 0.35rem; }
+
+.toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.toc a {
+  display: inline-block;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: var(--coffee);
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.toc a:hover { background: var(--roast); }
+
+.chapter-title {
+  margin: 0.6rem 0 -0.4rem;
+  padding-top: 0.6rem;
+  font-size: 1.35rem;
+  color: var(--bean);
+  border-top: 3px solid var(--amber);
+  scroll-margin-top: 1rem;
+}
+
+.chart-wrap.tall { height: 420px; }
+
+/* ============================================================
+   Collapsible "headline / methodology" notes
+   ============================================================ */
+.interpretation .note-headline {
+  margin: 0 0 0.4rem;
+  font-weight: 700;
+  color: var(--bean);
+}
+
+.interpretation .note-headline .tag {
+  display: inline-block;
+  background: var(--amber);
+  color: white;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 700;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+.interpretation details.note-detail {
+  font-size: 0.85rem;
+}
+
+.interpretation details.note-detail summary {
+  cursor: pointer;
+  color: var(--coffee);
+  font-weight: 600;
+  font-size: 0.8rem;
+  list-style: none;
+}
+
+.interpretation details.note-detail summary::-webkit-details-marker { display: none; }
+
+.interpretation details.note-detail summary::before {
+  content: "▸ ";
+}
+
+.interpretation details.note-detail[open] summary::before {
+  content: "▾ ";
+}
+
+.interpretation details.note-detail p {
+  margin: 0.5rem 0 0;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   Certifications block (map country-detail panel)
+   ============================================================ */
+.cert-block {
+  border-top: 1px dashed #d8c7ae;
+}
+
+.cert-list {
+  margin: 0 0 0.5rem;
+  padding-left: 1.1rem;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.cert-list li { margin-bottom: 0.5rem; }
+
+.cert-tag {
+  display: inline-block;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 700;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  margin-left: 0.3rem;
+}
+
+.cert-tag.mandatory { background: #f8d3cc; color: #a12a12; }
+.cert-tag.voluntary { background: #d9ecdc; color: #2e6b3e; }
