@@ -12,7 +12,11 @@
 <header>
   <div class="eyebrow">Globalization Intelligence Unit &middot; Economics of Globalization</div>
   <h1>Ecuador's Coffee Sector in the Global Economy</h1>
-  <p class="subtitle">Trade flows, prices, and macro risk shaping Ecuador's coffee growers and processors — from smallholder green-bean farms to industrial instant-coffee exporters.</p>
+  <p class="subtitle">Trade flows, prices, tariffs, risk and logistics shaping Ecuador's coffee growers and processors — from smallholder green-bean farms to industrial instant-coffee exporters — and a data-driven read on where Ecuador should sell next.</p>
+  <div class="controls product-filter-row">
+    <label for="product-filter">Coffee product type</label>
+    <select id="product-filter"></select>
+  </div>
 </header>
 
 <div class="kpi-row" id="kpi-row"></div>
@@ -21,7 +25,7 @@
 
   <section class="card">
     <h2>Where Ecuador's Coffee Goes</h2>
-    <p class="section-tip">Marker size = export value for the selected year. Click a country for its trade history with Ecuador.</p>
+    <p class="section-tip">Marker size = export value for the selected year and product type. Click a country for its trade history with Ecuador.</p>
     <div class="controls">
       <label for="map-year">Year</label>
       <select id="map-year"></select>
@@ -30,31 +34,28 @@
       <div id="map"></div>
       <div id="country-detail"><p class="placeholder">Click a destination marker on the map to see its export history.</p></div>
     </div>
+    <div class="interpretation" id="map-empty-note"></div>
   </section>
 
   <section class="card">
     <h2>Export Trend: Value vs. Volume (2015–2024)</h2>
-    <p class="section-tip">Total coffee exports (HS 0901), FOB value in USD vs. net weight in kg.</p>
+    <p class="section-tip">Selected product's export value (FOB, USD) vs. net weight (kg).</p>
     <div class="chart-wrap"><canvas id="chart-trend"></canvas></div>
     <div class="interpretation" id="trend-note"></div>
   </section>
 
   <section class="card">
     <h2>The Real Story: Raw Beans vs. Instant Coffee Extract</h2>
-    <p class="section-tip">HS 0901 (green/roasted beans) vs. HS 210111 (soluble/instant coffee extract) export value.</p>
+    <p class="section-tip">HS 0901 (green/roasted beans) vs. HS 210111 (soluble/instant coffee extract) export value, selected benchmark years.</p>
     <div class="chart-wrap short"><canvas id="chart-hs"></canvas></div>
-    <div class="interpretation">
-      <strong>Ecuador's coffee export value is not where you'd expect it.</strong> In 2024, instant/soluble coffee extract (HS 210111) exported <strong>$122.1M</strong> — roughly <strong>10x</strong> the value of raw green beans ($12.2M). This means "local coffee firms" is really two very different populations: smallholder growers exposed to weather and land-use pressure, and a handful of large industrial processors exposed to global commodity and trade-policy risk.
-    </div>
+    <div class="interpretation" id="hs-note"></div>
   </section>
 
   <section class="card">
     <h2>Ecuador vs. Its Competitors</h2>
     <p class="section-tip">Total coffee export value (HS 0901), log scale — Ecuador is a minor player next to regional and global exporters.</p>
     <div class="chart-wrap"><canvas id="chart-competitors"></canvas></div>
-    <div class="interpretation">
-      Ecuador's raw coffee exports ($12–28M/yr) are a rounding error next to Brazil ($11.4B in 2024) and even Colombia ($3.5B) or Peru ($1.1B). Ecuador cannot compete on volume — its opportunity lies in value-added processing (instant coffee, specialty/roasted niches) rather than raw commodity export.
-    </div>
+    <div class="interpretation" id="competitors-note"></div>
   </section>
 
   <div class="two-col">
@@ -62,6 +63,7 @@
       <h2>International Coffee Prices</h2>
       <p class="section-tip">ICO indicator prices, USD/kg annual average (via World Bank Pink Sheet).</p>
       <div class="chart-wrap short"><canvas id="chart-prices"></canvas></div>
+      <div class="interpretation" id="price-note"></div>
     </section>
     <section class="card">
       <h2>Domestic Production</h2>
@@ -69,6 +71,52 @@
       <div class="chart-wrap short"><canvas id="chart-production"></canvas></div>
     </section>
   </div>
+
+  <section class="card">
+    <h2>International Market: Top Importers</h2>
+    <p class="section-tip">World-market-size benchmark among Ecuador's 10 candidate markets — who buys the most coffee, in absolute terms.</p>
+    <div class="chart-wrap"><canvas id="chart-top-importers"></canvas></div>
+    <div class="interpretation" id="top-importers-note"></div>
+  </section>
+
+  <section class="card">
+    <h2>Tariffs &amp; Market Access</h2>
+    <p class="section-tip">MFN vs. preferential tariff rates Ecuador actually pays, trade-agreement status, and non-tariff/SPS barriers per candidate market.</p>
+    <div class="chart-wrap"><canvas id="chart-tariffs"></canvas></div>
+    <div id="tariff-table" class="table-wrap"></div>
+    <div class="interpretation" id="tariff-note"></div>
+  </section>
+
+  <section class="card">
+    <h2>Demand: Growth &amp; Intensity</h2>
+    <p class="section-tip">Import growth trend and a per-capita demand-intensity proxy across Ecuador's 10 candidate markets.</p>
+    <div class="two-col">
+      <div class="chart-wrap"><canvas id="chart-demand-growth"></canvas></div>
+      <div class="chart-wrap"><canvas id="chart-import-per-capita"></canvas></div>
+    </div>
+    <div class="interpretation" id="demand-note"></div>
+  </section>
+
+  <section class="card">
+    <h2>Country Risk Semaphore</h2>
+    <p class="section-tip">Political, economic/regulatory, FX, logistics and tariff risk at a glance for each candidate market.</p>
+    <div id="risk-semaphore-table" class="table-wrap"></div>
+    <div class="interpretation" id="risk-note"></div>
+  </section>
+
+  <section class="card">
+    <h2>Logistics</h2>
+    <p class="section-tip">Destination port, estimated distance/transit time from Guayaquil, and World Bank Logistics Performance Index score.</p>
+    <div id="logistics-table" class="table-wrap"></div>
+    <div class="interpretation" id="logistics-note"></div>
+  </section>
+
+  <section class="card">
+    <h2>Should Ecuador Export Here?</h2>
+    <p class="section-tip">Composite attractiveness indicator per market — analytical (data-driven), strategic (growth/headroom), and business/investment perception — scored relative to the 10 candidate markets.</p>
+    <div class="recommendations-grid" id="recommendations-grid"></div>
+    <div class="interpretation" id="recommendations-note"></div>
+  </section>
 
   <section class="card">
     <h2>Risk & Macro Panel</h2>
@@ -79,12 +127,13 @@
 </main>
 
 <footer>
-  Data: UN Comtrade, FAOSTAT, World Bank (WDI &amp; Commodity Markets "Pink Sheet"). Full citations in <code>data/SOURCES.md</code>. Accessed 2026-07-28. Built for the Economics of Globalization semester project — Coffee Sector, Ecuador.
+  Data: UN Comtrade, FAOSTAT, World Bank (WDI, WGI, LPI &amp; Commodity Markets "Pink Sheet"). Full citations in <code>data/SOURCES.md</code>. Access date 2026-08-03. Built for the Economics of Globalization semester project — Coffee Sector, Ecuador.
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 <script src="data.js"></script>
+<script src="data-loader.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

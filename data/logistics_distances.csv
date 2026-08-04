@@ -1,0 +1,11 @@
+market,destination_port,great_circle_km,estimated_route_km,estimated_transit_days
+Chile,Valparaíso,3538,4069,5.1
+France,Le Havre,9474,10895,13.6
+USA,Miami,3110,3576,4.5
+Colombia,Buenaventura,746,858,1.1
+Japan,Yokohama,14516,16694,20.9
+Germany,Hamburg,10194,11723,14.7
+Rep. of Korea,Busan,15291,17585,22.0
+China,Shanghai,16084,18496,23.1
+Netherlands,Rotterdam,9814,11286,14.1
+Belgium,Antwerp,9801,11271,14.1
