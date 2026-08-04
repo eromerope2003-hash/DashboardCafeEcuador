@@ -60,9 +60,9 @@ const TARIFF_ROW_KEY = {
 const CERTIFICATIONS = {
   USA: {
     mandatory: [
-      { name: "FDA Food Facility Registration", desc: "Registro obligatorio de la planta exportadora ante la FDA (bajo FSMA)." },
-      { name: "FDA Foreign Supplier Verification Program (FSVP)", desc: "El importador en EE.UU. debe verificar que el proveedor ecuatoriano cumple los estándares de seguridad alimentaria de EE.UU." },
-      { name: "FDA Prior Notice", desc: "Notificación previa obligatoria a la FDA antes de que el embarque llegue a puerto/aeropuerto de EE.UU." },
+      { name: "FDA Food Facility Registration", desc: "Mandatory registration of the exporting plant with the FDA (under FSMA)." },
+      { name: "FDA Foreign Supplier Verification Program (FSVP)", desc: "The U.S. importer must verify that the Ecuadorian supplier meets U.S. food-safety standards." },
+      { name: "FDA Prior Notice", desc: "Mandatory advance notice to the FDA before the shipment arrives at a U.S. port/airport." },
     ],
     voluntary: [],
     gapNote: null,
@@ -70,42 +70,42 @@ const CERTIFICATIONS = {
   FRA: null, DEU: null, NLD: null, BEL: null, // filled below, all four share the EU row
   CHN: {
     mandatory: [
-      { name: "Registro GACC", desc: "Registro obligatorio de la instalación exportadora de alimentos (incl. café) ante la Administración General de Aduanas de China." },
+      { name: "GACC Registration", desc: "Mandatory registration of the food-exporting facility (incl. coffee) with China's General Administration of Customs." },
     ],
     voluntary: [],
-    gapNote: "El IVA de importación (~13%) aplica sobre el arancel; no es una certificación pero sube el costo total de entrada.",
+    gapNote: "The import VAT (~13%) applies on top of the tariff; it's not a certification, but it raises the total cost of entry.",
   },
   JPN: {
     mandatory: [],
     voluntary: [],
-    gapNote: "La Food Sanitation Act y la Plant Protection Act de Japón aplican de forma general a todas las importaciones de café, pero esta investigación no encontró el detalle específico de trámites/certificados exigidos — ver data/SOURCES.md.",
+    gapNote: "Japan's Food Sanitation Act and Plant Protection Act apply broadly to all coffee imports, but this research pass did not find the specific procedural/certificate detail required — see data/SOURCES.md.",
   },
   CHL: {
     mandatory: [],
     voluntary: [],
-    gapNote: "No se identificaron barreras SPS/fitosanitarias específicas para café en la investigación disponible (no verificado directamente con el SAG de Chile).",
+    gapNote: "No coffee-specific SPS/phytosanitary barriers were identified in the available research (not verified directly with Chile's SAG).",
   },
   COL: {
     mandatory: [],
     voluntary: [],
-    gapNote: "No se identificaron requisitos SPS/fitosanitarios específicos para café en la investigación disponible para este mercado.",
+    gapNote: "No coffee-specific SPS/phytosanitary requirements were identified in the available research for this market.",
   },
   KOR: {
     mandatory: [],
     voluntary: [],
-    gapNote: "No se identificó el detalle de requisitos SPS/fitosanitarios para café en la investigación disponible. Sí existe una exención temporal del IVA (10%) para café verde hasta el 31-Dic-2027, que no es una certificación.",
+    gapNote: "No detail on SPS/phytosanitary requirements for coffee was identified in the available research. A temporary VAT (10%) exemption for green coffee does exist through 31-Dec-2027, but that is not a certification.",
   },
 };
 const EU_CERT = {
   mandatory: [
-    { name: "EUDR — EU Deforestation Regulation (Reg. 2023/1115)", desc: "Declaración de debida diligencia + datos de geolocalización de las fincas de origen, obligatoria para todo el café que entra a la UE. Plazo: grandes operadores/comerciantes Dic-2026, micro/pequeñas empresas Jun-2027." },
+    { name: "EUDR — EU Deforestation Regulation (Reg. 2023/1115)", desc: "Due-diligence statement + geolocation data for the farms of origin, mandatory for all coffee entering the EU. Deadline: large operators/traders Dec-2026, micro/small enterprises Jun-2027." },
   ],
   voluntary: [
-    { name: "Certificación Orgánica (UE)", desc: "Demanda estructuralmente fuerte en Alemania (~49,000 t de café verde orgánico importado en 2024) y Bélgica (~30,000 t en 2023); no es obligatoria por ley, pero facilita el acceso a esos segmentos." },
-    { name: "Fairtrade", desc: "Alemania es el mayor mercado Fairtrade de café del mundo por volumen (~5.3% del consumo alemán certificado Fairtrade, 2024)." },
-    { name: "Rainforest Alliance", desc: "~15% de las importaciones de café certificado Rainforest Alliance de toda la UE pasan por Países Bajos (puerto de Róterdam)." },
+    { name: "Organic Certification (EU)", desc: "Structurally strong demand in Germany (~49,000 t of organic green coffee imported in 2024) and Belgium (~30,000 t in 2023); not legally mandatory, but it eases access to those segments." },
+    { name: "Fairtrade", desc: "Germany is the world's largest Fairtrade coffee market by volume (~5.3% of German consumption is Fairtrade-certified, 2024)." },
+    { name: "Rainforest Alliance", desc: "~15% of all Rainforest Alliance-certified coffee imports into the EU pass through the Netherlands (Port of Rotterdam)." },
   ],
-  gapNote: "No se encontraron particularidades específicas de Francia en esta investigación (gap). Los cuatro países de la UE comparten el mismo arancel externo y el mismo marco regulatorio (EUDR).",
+  gapNote: "No France-specific detail was found in this research pass (gap). All four EU countries share the same external tariff and the same regulatory framework (EUDR).",
 };
 CERTIFICATIONS.FRA = EU_CERT; CERTIFICATIONS.DEU = EU_CERT; CERTIFICATIONS.NLD = EU_CERT; CERTIFICATIONS.BEL = EU_CERT;
 

@@ -18,10 +18,10 @@ const fmtNum = (v) => v == null ? "n/a" : Number(v).toLocaleString("en-US");
 // Renders a short, always-visible bold headline + a collapsible <details> block for the
 // longer methodology/caveat text. Keeps the dashboard readable at a glance while still
 // making the full sourcing/caveat detail one click away. `tag` (optional) is a small
-// pill label, e.g. "No cambia con el filtro" for sections that use product-invariant data.
+// pill label, e.g. "Doesn't change with the filter" for sections that use product-invariant data.
 function noteHTML(headlineHtml, detailHtml, tag) {
   const tagHtml = tag ? `<span class="tag">${tag}</span>` : "";
-  return `<p class="note-headline">${tagHtml}${headlineHtml}</p><details class="note-detail"><summary>Ver metodología y fuentes</summary><p>${detailHtml}</p></details>`;
+  return `<p class="note-headline">${tagHtml}${headlineHtml}</p><details class="note-detail"><summary>See methodology &amp; sources</summary><p>${detailHtml}</p></details>`;
 }
 
 const COFFEE_COLORS = { bean: "#2c1810", roast: "#4a2c1a", coffee: "#6f4e37", latte: "#b08968", green: "#4a7c59", amber: "#c1440e" };
@@ -216,16 +216,16 @@ function renderMap(year) {
 function certificationsHtml(iso3) {
   const cert = CERTIFICATIONS[iso3];
   if (!cert) {
-    return `<div class="cert-block"><h4 style="margin:0.9rem 0 0.3rem;color:var(--bean);font-size:0.92rem">Certificaciones / requisitos para exportar aquí</h4>
-      <p style="font-size:0.8rem;color:var(--muted)">No hay investigación de certificaciones para este mercado — el detalle de cumplimiento solo se levantó para los 10 mercados prioritarios del dashboard (ver Capítulo 3, "Tariffs &amp; Market Access").</p></div>`;
+    return `<div class="cert-block"><h4 style="margin:0.9rem 0 0.3rem;color:var(--bean);font-size:0.92rem">Certifications / requirements to export here</h4>
+      <p style="font-size:0.8rem;color:var(--muted)">No certification research is available for this market — compliance detail was only gathered for the dashboard's 10 priority markets (see Chapter 3, "Tariffs &amp; Market Access").</p></div>`;
   }
-  const item = (c, kind) => `<li><strong>${c.name}</strong> <span class="cert-tag ${kind}">${kind === "mandatory" ? "Obligatoria" : "Voluntaria/comercial"}</span><br/><span style="color:var(--muted)">${c.desc}</span></li>`;
+  const item = (c, kind) => `<li><strong>${c.name}</strong> <span class="cert-tag ${kind}">${kind === "mandatory" ? "Mandatory" : "Voluntary/commercial"}</span><br/><span style="color:var(--muted)">${c.desc}</span></li>`;
   const items = [...cert.mandatory.map(c => item(c, "mandatory")), ...cert.voluntary.map(c => item(c, "voluntary"))];
   const n = cert.mandatory.length;
   return `
     <div class="cert-block">
-      <h4 style="margin:0.9rem 0 0.3rem;color:var(--bean);font-size:0.92rem">Certificaciones / requisitos para exportar aquí</h4>
-      <p style="margin:0 0 0.4rem;font-size:0.8rem;color:var(--muted)">${n} requisito${n === 1 ? "" : "s"} obligatorio${n === 1 ? "" : "s"} identificado${n === 1 ? "" : "s"}${cert.voluntary.length ? ` + ${cert.voluntary.length} certificación${cert.voluntary.length === 1 ? "" : "es"} voluntaria${cert.voluntary.length === 1 ? "" : "s"}` : ""} en la investigación disponible.</p>
+      <h4 style="margin:0.9rem 0 0.3rem;color:var(--bean);font-size:0.92rem">Certifications / requirements to export here</h4>
+      <p style="margin:0 0 0.4rem;font-size:0.8rem;color:var(--muted)">${n} mandatory requirement${n === 1 ? "" : "s"} identified${cert.voluntary.length ? ` + ${cert.voluntary.length} voluntary certification${cert.voluntary.length === 1 ? "" : "s"}` : ""} in the available research.</p>
       ${items.length ? `<ul class="cert-list">${items.join("")}</ul>` : ""}
       ${cert.gapNote ? `<p style="font-size:0.78rem;color:var(--muted);font-style:italic">${cert.gapNote}</p>` : ""}
     </div>`;
@@ -305,8 +305,8 @@ function renderTrendChart() {
   const valChange = v15 ? (((v24 - v15) / v15) * 100).toFixed(0) : "n/a";
   const wChange = w15 ? (((w24 - w15) / w15) * 100).toFixed(0) : "n/a";
   document.getElementById("trend-note").innerHTML = noteHTML(
-    `${PRODUCT_CATEGORIES[selectedProduct].label}: entre 2015 y 2024 el valor exportado cambió ${valChange}% mientras que el peso embarcado cambió ${wChange}%.`,
-    `Valor = FOB en USD (UN Comtrade). Peso = kg netos. ${selectedProduct === "all" ? "El peso neto 2023 de grano verde no fue reportado por la aduana ecuatoriana — un vacío real de datos que se ve como una caída en la línea de volumen, no un error de cálculo." : "Cifras filtradas a las categorías HS del tipo de café seleccionado arriba."}`
+    `${PRODUCT_CATEGORIES[selectedProduct].label}: between 2015 and 2024 export value changed ${valChange}% while shipped weight changed ${wChange}%.`,
+    `Value = FOB in USD (UN Comtrade). Weight = net kg. ${selectedProduct === "all" ? "Green coffee's 2023 net weight was not reported by Ecuadorian customs — a real data gap that shows up as a dip in the volume line, not a calculation error." : "Figures filtered to the HS categories of the coffee type selected above."}`
   );
 }
 
@@ -353,8 +353,8 @@ function renderHsChart() {
   const e24 = extractCodes.reduce((s, c) => s + (byCode[c]?.[latestYear] || 0), 0);
   const ratio = g24 ? (e24 / g24).toFixed(1) : "n/a";
   document.getElementById("hs-note").innerHTML = noteHTML(
-    `Las barras ámbar (${PRODUCT_CATEGORIES[selectedProduct].label}) representaron ${fmtPct(share, 0)} del valor exportado en las 7 categorías HS en ${latestYear}.`,
-    `Para contexto: en ${latestYear}, el café instantáneo/soluble exportó ${fmtUSDShort(e24)} — <strong>${ratio}x</strong> el valor de todos los granos verdes/tostados/otros (${fmtUSDShort(g24)}) combinados. Esto confirma que "empresas cafetaleras locales" son en realidad dos poblaciones muy distintas: pequeños productores expuestos al clima, y un puñado de grandes procesadoras industriales expuestas al riesgo comercial global.`
+    `The amber bars (${PRODUCT_CATEGORIES[selectedProduct].label}) accounted for ${fmtPct(share, 0)} of the value exported across all 7 HS categories in ${latestYear}.`,
+    `For context: in ${latestYear}, instant/soluble coffee exported ${fmtUSDShort(e24)} — <strong>${ratio}x</strong> the value of all green/roasted/other beans (${fmtUSDShort(g24)}) combined. This confirms that "local coffee businesses" are actually two very different populations: smallholder growers exposed to climate, and a handful of large industrial processors exposed to global commercial risk.`
   );
 }
 
@@ -385,9 +385,9 @@ function renderCompetitorsChart() {
   const ecu = rowsLatest.find(r => r.country === "Ecuador");
   const share = ecu ? (ecu.export_value_usd / totalLatest * 100) : null;
   document.getElementById("competitors-note").innerHTML = noteHTML(
-    `Ecuador es un jugador marginal: entre estos 5 exportadores, tuvo apenas <strong>${fmtPct(share, 2)}</strong> del valor combinado de HS 0901 en ${latestYear}.`,
-    `Brasil, Colombia, Vietnam y Perú solo tienen datos públicos comparables de café verde (HS 0901) — no existe una serie de "exportaciones de café instantáneo de Brasil" con el mismo nivel de detalle público, así que este gráfico no cambia con el filtro de tipo de café de arriba. Ecuador no puede competir en volumen de grano — su oportunidad está en procesamiento de valor agregado (café instantáneo, nichos especiales/tostados) más que en exportar la materia prima.`,
-    "No cambia con el filtro"
+    `Ecuador is a marginal player: among these 5 exporters, it held just <strong>${fmtPct(share, 2)}</strong> of combined HS 0901 value in ${latestYear}.`,
+    `Brazil, Colombia, Vietnam and Peru only have comparable public data for green coffee (HS 0901) — there is no "Brazil's instant coffee exports" series at the same level of public detail, so this chart does not change with the coffee-type filter above. Ecuador cannot compete on bean volume — its opportunity lies in value-added processing (instant coffee, specialty/roasted niches) rather than exporting the raw material.`,
+    "Doesn't change with the filter"
   );
 }
 
@@ -426,9 +426,9 @@ function renderPricesChart() {
     data: {
       labels: years,
       datasets: [
-        { label: "Arabica mundial (USD/kg)", data: DATA.prices.map(p => p.arabica_usd_per_kg), borderColor: COFFEE_COLORS.roast, tension: 0.25 },
-        { label: "Robusta mundial (USD/kg)", data: DATA.prices.map(p => p.robusta_usd_per_kg), borderColor: COFFEE_COLORS.green, tension: 0.25 },
-        { label: `Ecuador implícito — ${PRODUCT_CATEGORIES[selectedProduct].label}`, data: ecuUnitPrice, borderColor: COFFEE_COLORS.amber, borderDash: [6, 3], tension: 0.25, spanGaps: true },
+        { label: "World Arabica (USD/kg)", data: DATA.prices.map(p => p.arabica_usd_per_kg), borderColor: COFFEE_COLORS.roast, tension: 0.25 },
+        { label: "World Robusta (USD/kg)", data: DATA.prices.map(p => p.robusta_usd_per_kg), borderColor: COFFEE_COLORS.green, tension: 0.25 },
+        { label: `Ecuador implied — ${PRODUCT_CATEGORIES[selectedProduct].label}`, data: ecuUnitPrice, borderColor: COFFEE_COLORS.amber, borderDash: [6, 3], tension: 0.25, spanGaps: true },
       ],
     },
     options: { responsive: true, maintainAspectRatio: false },
@@ -442,9 +442,9 @@ function renderPricesChart() {
   const isBeanCategory = ["090111", "090112", "090121", "090122"].some(c => codes.includes(c));
   document.getElementById("price-note").innerHTML = noteHTML(
     unitPrice != null
-      ? `Precio implícito de Ecuador (${PRODUCT_CATEGORIES[selectedProduct].label}, ${latestYear}): <strong>${unitPrice.toFixed(2)} USD/kg</strong>${isBeanCategory && diff != null ? ` vs. ${worldArabica.toFixed(2)} USD/kg de la referencia mundial Arabica (${fmtPct(diff, 0)} de diferencia).` : "."}`
-      : `No hay datos de peso neto suficientes para calcular un precio implícito de Ecuador en "${PRODUCT_CATEGORIES[selectedProduct].label}".`,
-    `Precio implícito = valor FOB exportado ÷ peso neto, para las categorías HS del filtro seleccionado — no es un precio certificado por calidad, es un proxy aproximado. ${isBeanCategory ? "Comparable de forma aproximada con la referencia mundial de grano verde." : "El café instantáneo/soluble y otras preparaciones no son directamente comparables con las referencias mundiales de Arabica/Robusta (que son precios de grano verde) — se incluye solo como referencia de valor agregado, normalmente varias veces más alto por kg."}${excludedYear ? ` <strong>Nota de calidad de datos:</strong> se excluyó el año ${excludedYear} de esta línea porque UN Comtrade reporta un peso neto anómalo para esa categoría/año (órdenes de magnitud por debajo de los demás años), lo que produciría un precio implícito no realista — no se corrigió ni se inventó un valor, solo se omitió el punto.` : ""}`
+      ? `Ecuador's implied price (${PRODUCT_CATEGORIES[selectedProduct].label}, ${latestYear}): <strong>${unitPrice.toFixed(2)} USD/kg</strong>${isBeanCategory && diff != null ? ` vs. ${worldArabica.toFixed(2)} USD/kg for the world Arabica reference (${fmtPct(diff, 0)} difference).` : "."}`
+      : `There isn't enough net-weight data to calculate an implied Ecuador price for "${PRODUCT_CATEGORIES[selectedProduct].label}".`,
+    `Implied price = exported FOB value ÷ net weight, for the HS categories in the selected filter — it's not a quality-certified price, just an approximate proxy. ${isBeanCategory ? "Roughly comparable to the world green-bean reference." : "Instant/soluble coffee and other preparations aren't directly comparable to the world Arabica/Robusta references (which are green-bean prices) — included only as a value-added reference point, typically several times higher per kg."}${excludedYear ? ` <strong>Data-quality note:</strong> the year ${excludedYear} was excluded from this line because UN Comtrade reports an anomalous net weight for that category/year (orders of magnitude below every other year), which would produce an unrealistic implied price — the value was not corrected or invented, just omitted.` : ""}`
   );
 }
 
@@ -469,9 +469,9 @@ function renderProductionChart() {
   });
 
   document.getElementById("production-note").innerHTML = noteHTML(
-    `Área cosechada cayó ${(((DATA.production[0].area_harvested_ha - DATA.production[DATA.production.length - 1].area_harvested_ha) / DATA.production[0].area_harvested_ha) * 100).toFixed(0)}% entre 2015 y ${DATA.production[DATA.production.length - 1].year}.`,
-    "FAOSTAT no reporta producción agrícola por producto final (grano vs. instantáneo) — el café verde cosechado es la materia prima de <em>todas</em> las categorías exportadas, así que este gráfico no cambia con el filtro de tipo de café de arriba a propósito: es el mismo campo, sin importar en qué se procese después.",
-    "No cambia con el filtro"
+    `Area harvested fell ${(((DATA.production[0].area_harvested_ha - DATA.production[DATA.production.length - 1].area_harvested_ha) / DATA.production[0].area_harvested_ha) * 100).toFixed(0)}% between 2015 and ${DATA.production[DATA.production.length - 1].year}.`,
+    "FAOSTAT does not report agricultural production by end product (bean vs. instant) — harvested green coffee is the raw material for <em>every</em> exported category, so this chart intentionally does not change with the coffee-type filter above: it's the same field, regardless of what it's processed into afterward.",
+    "Doesn't change with the filter"
   );
 }
 
@@ -491,16 +491,16 @@ function renderTopImportersChart() {
     data: {
       labels: rows.map(r => r.market),
       datasets: [
-        { label: `Tamaño del mercado — importaciones mundiales HS 0901, ${latestYear}`, data: rows.map(r => r.import_value_usd), backgroundColor: "#e4d5bd" },
-        { label: `Ecuador exportó aquí — ${PRODUCT_CATEGORIES[selectedProduct].label}, ${latestYear}`, data: ecuValues, backgroundColor: COFFEE_COLORS.amber },
+        { label: `Market size — world HS 0901 imports, ${latestYear}`, data: rows.map(r => r.import_value_usd), backgroundColor: "#e4d5bd" },
+        { label: `Ecuador exported here — ${PRODUCT_CATEGORIES[selectedProduct].label}, ${latestYear}`, data: ecuValues, backgroundColor: COFFEE_COLORS.amber },
       ],
     },
     options: { indexAxis: "y", responsive: true, maintainAspectRatio: false, scales: { x: { ticks: { callback: fmtUSDShort } } }, plugins: { legend: { position: "bottom", labels: { boxWidth: 12, font: { size: 10 } } } } },
   });
 
   document.getElementById("top-importers-note").innerHTML = noteHTML(
-    `La barra clara es el tamaño total del mercado; la ámbar es lo que Ecuador realmente exportó ahí en ${PRODUCT_CATEGORIES[selectedProduct].label} — la brecha entre ambas es el espacio que Ecuador todavía no ocupa.`,
-    `El benchmark de tamaño de mercado (barra clara) usa solo HS 0901 (café verde/tostado) porque no existe una serie pública comparable de importaciones mundiales de café instantáneo por país — no es directamente comparable si tu selección es instantáneo/soluble, pero sigue dando una idea del tamaño relativo de cada mercado. La barra ámbar de Ecuador sí es exacta para el producto seleccionado (UN Comtrade, exports).`
+    `The light bar is total market size; the amber bar is what Ecuador actually exported there in ${PRODUCT_CATEGORIES[selectedProduct].label} — the gap between them is the space Ecuador hasn't captured yet.`,
+    `The market-size benchmark (light bar) uses only HS 0901 (green/roasted coffee) because no comparable public series of world instant-coffee imports by country exists — it isn't directly comparable if your selection is instant/soluble, but it still gives a sense of each market's relative size. Ecuador's amber bar is exact for the selected product (UN Comtrade, exports).`
   );
 }
 
@@ -539,8 +539,8 @@ function renderTariffsSection() {
       <tbody>${tableRows}</tbody>
     </table>`;
   document.getElementById("tariff-note").innerHTML = noteHTML(
-    `Este gráfico y esta tabla sí cambian con el filtro de producto — muestran el arancel específico para ${PRODUCT_CATEGORIES[selectedProduct].label}.`,
-    `<strong>Advertencia de fuentes:</strong> los aranceles de esta tabla se recopilaron de fragmentos de búsqueda web de fuentes oficiales/secundarias (no hubo acceso a bases de datos arancelarias primarias en esta sesión de investigación) — las celdas marcadas SECONDARY, INDIRECT o GAP en los datos subyacentes deben re-verificarse contra WTO Tariff Analysis Online, ITC Market Access Map, o el arancel de aduanas de cada país antes de la entrega final. Detalle completo: <code>data/SOURCES.md</code>.`
+    `This chart and table do change with the product filter — they show the specific tariff for ${PRODUCT_CATEGORIES[selectedProduct].label}.`,
+    `<strong>Source caveat:</strong> the tariffs in this table were compiled from web-search snippets of official/secondary sources (no access to primary tariff databases during this research session) — cells flagged SECONDARY, INDIRECT or GAP in the underlying data should be re-verified against WTO Tariff Analysis Online, the ITC Market Access Map, or each country's customs tariff schedule before final submission. Full detail: <code>data/SOURCES.md</code>.`
   );
 }
 
@@ -571,9 +571,9 @@ function renderDemandSection() {
   });
 
   document.getElementById("demand-note").innerHTML = noteHTML(
-    `Proxy de intensidad de demanda, no consumo directo — ambos gráficos usan solo datos de importación de HS 0901 (café verde/tostado), por lo que no cambian con el filtro de producto.`,
-    `Se buscó un dataset real de consumo de café per cápita (ICO, USDA FAS, Our World in Data) pero no se pudo obtener en esta investigación — ICO exige registro de cuenta y no se encontró una API/descarga pública funcional para las otras fuentes. Se usa <strong>importación per cápita como el mejor proxy disponible</strong> de intensidad de demanda (importaciones ≈ disponibilidad aparente de mercado para estos países netamente importadores). También se buscó un mapa de calor de estacionalidad, pero no se encontró un dataset citable de estacionalidad mensual de importaciones para estos mercados — se omitió en vez de estimarlo.`,
-    "No cambia con el filtro"
+    `Demand-intensity proxy, not direct consumption — both charts use only HS 0901 (green/roasted coffee) import data, so they do not change with the product filter.`,
+    `A real per-capita coffee consumption dataset (ICO, USDA FAS, Our World in Data) was sought but could not be obtained in this research — the ICO requires account registration and no working public API/download was found for the other sources. <strong>Import per capita is used as the best available proxy</strong> for demand intensity (imports ≈ apparent market availability for these net-importing countries). A seasonality heatmap was also sought, but no citable dataset of monthly import seasonality for these markets was found — it was omitted rather than estimated.`,
+    "Doesn't change with the filter"
   );
 }
 
@@ -617,8 +617,8 @@ function renderRiskSemaphore() {
       <tbody>${rows.map(r => `<tr><td>${r.name}</td><td>${dotHtml(r.politicalDot)}</td><td>${dotHtml(r.economicDot)}</td><td>${dotHtml(r.fxDot)}</td><td>${dotHtml(r.logisticsDot)}</td><td>${dotHtml(r.tariffDot)}</td></tr>`).join("")}</tbody>
     </table>`;
   document.getElementById("risk-note").innerHTML = noteHTML(
-    `Solo la columna <strong>Tariff</strong> cambia con el filtro de producto — las demás son riesgo a nivel país, no dependen de qué tipo de café se exporte.`,
-    `Political/Economic = World Bank Worldwide Governance Indicators (último año disponible por mercado). FX = volatilidad interanual del tipo de cambio 2015–2024 (los mercados de la UE comparten un solo puntaje basado en el Euro, por construcción). Logistics = World Bank Logistics Performance Index, puntaje general (último disponible: 2022 para la mayoría de mercados). Tariff = estado actual de TLC/preferencia y arancel preferencial para el producto seleccionado. Los umbrales son cortes relativos elegidos para este dashboard, no la metodología de una agencia externa de calificación de riesgo — ver <code>data/SOURCES.md</code> para cifras y años exactos.`
+    `Only the <strong>Tariff</strong> column changes with the product filter — the rest are country-level risk, independent of which coffee type is exported.`,
+    `Political/Economic = World Bank Worldwide Governance Indicators (latest available year per market). FX = year-over-year exchange-rate volatility 2015–2024 (EU markets share a single Euro-based score, by construction). Logistics = World Bank Logistics Performance Index, overall score (latest available: 2022 for most markets). Tariff = current FTA/preference status and preferential tariff for the selected product. The thresholds are relative cut-offs chosen for this dashboard, not the methodology of an external risk-rating agency — see <code>data/SOURCES.md</code> for exact figures and years.`
   );
 }
 
@@ -644,9 +644,9 @@ function renderLogisticsSection() {
       </tr>`).join("")}</tbody>
     </table>`;
   document.getElementById("logistics-note").innerHTML = noteHTML(
-    `Esta tabla no cambia con el filtro de producto: puerto, distancia y tiempo de tránsito dependen del país destino, no del tipo de café.`,
-    `Distancias/tiempos de tránsito son estimados desde Guayaquil vía distancia de círculo máximo × un factor de ruteo marítimo de 1.15 a una velocidad promedio asumida de 18 nudos — son direccionales/comparativos, no datos de itinerario real de navieras. <strong>El costo de flete se omite intencionalmente</strong>: no se encontró una fuente citable, confiable y gratuita de tarifas de flete actuales; presentar un número aquí violaría el estándar de este proyecto de no usar datos inventados. Metodología: <code>data/SOURCES.md</code>.`,
-    "No cambia con el filtro"
+    `This table does not change with the product filter: port, distance and transit time depend on the destination country, not the coffee type.`,
+    `Distances/transit times are estimated from Guayaquil via great-circle distance × a 1.15 maritime-routing factor at an assumed average speed of 18 knots — they are directional/comparative, not real carrier-schedule data. <strong>Freight cost is intentionally omitted</strong>: no citable, reliable, and free source of current freight rates was found; presenting a number here would violate this project's standard against invented data. Methodology: <code>data/SOURCES.md</code>.`,
+    "Doesn't change with the filter"
   );
 }
 
@@ -738,8 +738,8 @@ function renderRecommendations() {
     </div>`;
   document.getElementById("recommendations-grid").innerHTML = recs.map(cardHtml).join("");
   document.getElementById("recommendations-note").innerHTML = noteHTML(
-    `Estos puntajes sí cambian con el filtro de producto (el arancel y el "market headroom" de Ecuador se recalculan para ${PRODUCT_CATEGORIES[selectedProduct].label}); el resto de los insumos (crecimiento de demanda, riesgo-país, logística) son a nivel país y no varían por producto.`,
-    `Cada mercado se puntúa de 0 a 100 <em>en relación con los otros 9 mercados candidatos de este conjunto</em> (normalización min-max), no contra un benchmark global absoluto. <em>Analítico</em> = 40% crecimiento de demanda + 30% carga arancelaria (invertida) + 30% gobernanza/riesgo compuesto. <em>Estratégico</em> = 50% crecimiento de demanda + 50% espacio de mercado (inverso de la penetración actual de Ecuador). <em>Percepción de negocio/inversión</em> = 30% estabilidad de gobernanza + 20% estabilidad FX + 25% desempeño logístico (LPI) + 25% tiempo de tránsito (invertido). Este es un indicador compuesto simplificado y transparente para priorización ilustrativa — no reemplaza un estudio formal de factibilidad de entrada a mercado.`
+    `These scores do change with the product filter (Ecuador's tariff and "market headroom" are recalculated for ${PRODUCT_CATEGORIES[selectedProduct].label}); the rest of the inputs (demand growth, country risk, logistics) are country-level and don't vary by product.`,
+    `Each market is scored from 0 to 100 <em>relative to the other 9 candidate markets in this set</em> (min-max normalization), not against an absolute global benchmark. <em>Analytical</em> = 40% demand growth + 30% tariff burden (inverted) + 30% governance/risk composite. <em>Strategic</em> = 50% demand growth + 50% market headroom (inverse of Ecuador's current penetration). <em>Business/investment perception</em> = 30% governance stability + 20% FX stability + 25% logistics performance (LPI) + 25% transit time (inverted). This is a simplified, transparent composite indicator for illustrative prioritization — it does not replace a formal market-entry feasibility study.`
   );
 }
 
