@@ -60,8 +60,12 @@ const CSV_FILES = {
 
 async function loadAllData() {
   const entries = Object.entries(CSV_FILES);
+  // Cache-busting query param: ensures every page load re-fetches the current CSVs instead of
+  // silently serving a stale cached copy (from the browser or an intermediate proxy) after the
+  // data files are updated — correctness matters more than shaving a few KB of repeat downloads here.
+  const cacheBust = `?v=${Date.now()}`;
   const results = await Promise.all(entries.map(([, path]) =>
-    fetch(path).then(r => {
+    fetch(path + cacheBust, { cache: "no-store" }).then(r => {
       if (!r.ok) throw new Error(`Failed to fetch ${path}: ${r.status}`);
       return r.text();
     }).then(parseCSV)
