@@ -473,3 +473,188 @@ table.data-table.semaphore th:first-child { text-align: left; }
 
 .cert-tag.mandatory { background: #f8d3cc; color: #a12a12; }
 .cert-tag.voluntary { background: #d9ecdc; color: #2e6b3e; }
+
+/* ============================================================
+   Decision tool (decision.html) — simplified ranking + country cards
+   ============================================================ */
+.dt-switch-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: var(--cream);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.dt-main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.6rem 2rem 3rem;
+  display: grid;
+  gap: 1.4rem;
+}
+
+.dt-hero {
+  background: linear-gradient(135deg, #fff6e8, var(--paper));
+  border: 1px solid #e8d3ac;
+  border-left: 5px solid var(--amber);
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--roast);
+  box-shadow: var(--card-shadow);
+}
+
+.dt-hero strong { color: var(--bean); }
+
+.dt-method-card summary {
+  cursor: pointer;
+  color: var(--coffee);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.dt-method-card p {
+  margin: 0.7rem 0 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--roast);
+}
+
+.dt-rank-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.dt-item {
+  background: white;
+  border-radius: 10px;
+  box-shadow: var(--card-shadow);
+  border-left: 4px solid var(--coffee);
+  overflow: hidden;
+}
+
+.dt-summary {
+  cursor: pointer;
+  list-style: none;
+  display: grid;
+  grid-template-columns: 2.2rem minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.85rem 1.1rem;
+}
+
+.dt-summary::-webkit-details-marker { display: none; }
+
+.dt-rank {
+  font-weight: 700;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.dt-name-wrap { min-width: 0; }
+
+.dt-name {
+  display: block;
+  font-weight: 700;
+  color: var(--bean);
+  font-size: 1.02rem;
+}
+
+.dt-oneliner {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 0.1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dt-score-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 6rem;
+}
+
+.dt-score-num {
+  font-weight: 700;
+  color: var(--bean);
+  font-size: 0.95rem;
+  width: 1.6rem;
+  text-align: right;
+}
+
+.dt-score-bar {
+  display: inline-block;
+  width: 4.5rem;
+  height: 8px;
+  border-radius: 999px;
+  background: #ecdfc9;
+  overflow: hidden;
+}
+
+.dt-score-bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--latte), var(--coffee));
+  border-radius: 999px;
+}
+
+.dt-detail {
+  padding: 0 1.1rem 1.1rem;
+  border-top: 1px solid #ecdfc9;
+}
+
+.dt-why {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--roast);
+  margin: 0.9rem 0;
+}
+
+.dt-fact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 0.8rem;
+}
+
+.dt-fact {
+  background: #fbf2e2;
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+}
+
+.dt-fact span {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.dt-fact strong {
+  display: block;
+  font-size: 0.98rem;
+  color: var(--bean);
+  margin-top: 0.15rem;
+}
+
+.dt-caveat {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-style: italic;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.dt-caveat a { color: var(--coffee); }
+
+@media (max-width: 640px) {
+  .dt-summary { grid-template-columns: 1.6rem minmax(0, 1fr) auto; }
+  .dt-score-wrap { grid-column: 1 / -1; justify-content: flex-start; padding-left: 2.4rem; }
+}
