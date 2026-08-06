@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ecuador Coffee — Market Entry Advisor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="advisor.css" />
+</head>
+<body>
+
+<header class="adv-header">
+  <div class="wrap">
+    <div class="eyebrow">Global Trade Advisory &middot; Ecuador Coffee</div>
+    <h1>Which markets should we export to?</h1>
+    <p class="subtitle">Ten candidate destinations, ranked on what actually decides the answer: the tariff you pay, how fast demand is growing, and whether the market can be served. Every figure traces to <code>data/SOURCES.md</code>.</p>
+
+    <div class="product-bar">
+      <div class="product-bar-label">
+        <span class="step">Step 1</span>
+        <strong>What are you exporting?</strong>
+        <em>The tariff, the ranking, the recommendation and every chart below recalculate for the product you pick.</em>
+      </div>
+      <div class="product-tabs" id="product-filter" role="tablist"></div>
+    </div>
+    <p class="product-active-note" id="product-active-note"></p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="integrity-warning"></div>
+
+  <section class="bottomline">
+    <h2>The recommendation</h2>
+    <div class="pick-grid" id="pick-grid"><div class="loading">Loading data…</div></div>
+  </section>
+
+  <section class="card">
+    <h2>The tariff wall</h2>
+    <p class="lead" id="tariff-lead">What every market charges on this product, and what Ecuador actually pays. The gap between the two bars is what the trade agreement is worth.</p>
+    <div class="chart-box tall"><canvas id="chart-tariff"></canvas></div>
+    <p class="chart-note" id="tariff-note"></p>
+  </section>
+
+  <section class="card">
+    <h2>The answer depends on which coffee you sell</h2>
+    <p class="lead">The same country is a different market for a green bean, a roasted bean and a jar of instant. This is the only view on the page that <b>ignores the filter above</b> and shows all three product lines at once — because the choice of product is itself part of the decision.</p>
+    <div class="matrix-layout">
+      <div>
+        <h3 class="panel-title">Tariff matrix — what Ecuador pays, by product</h3>
+        <p class="panel-sub">Large figure = Ecuador's preferential rate. Small figure = the MFN rate any exporter without an agreement pays.</p>
+        <div id="tariff-matrix"></div>
+      </div>
+      <div>
+        <h3 class="panel-title">What Ecuador actually exports</h3>
+        <p class="panel-sub">Export value by product line, 2015–2024, all destinations (UN Comtrade).</p>
+        <div class="chart-box mid"><canvas id="chart-mix"></canvas></div>
+        <p class="chart-note" id="mix-note"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Where the opportunity is</h2>
+    <p class="lead">Size, growth, room to grow and cost of entry in one view. Up and to the right = a large market that is still growing fast; larger bubbles = more headroom for Ecuador; green = duty-free for Ecuador today.</p>
+    <div class="chart-box tall"><canvas id="chart-opportunity"></canvas></div>
+    <p class="chart-note" id="opportunity-note"></p>
+  </section>
+
+  <section class="card">
+    <h2>Ranking</h2>
+    <p class="lead">Score 0–100, relative to these ten markets only. Select a market to see the case for and against it.</p>
+    <div class="rank-list" id="rank-list"></div>
+  </section>
+
+  <section class="card" id="detail">
+    <div class="detail-head" id="detail-head"></div>
+
+    <div class="grid-2">
+      <div>
+        <h3 class="panel-title">What the trade agreement saves</h3>
+        <p class="panel-sub">Tariff charged to any exporter (MFN) vs. the rate Ecuador pays, by product line.</p>
+        <div class="chart-box mid"><canvas id="chart-detail-tariff"></canvas></div>
+      </div>
+      <div>
+        <h3 class="panel-title">Demand vs. Ecuador's position</h3>
+        <p class="panel-sub">Total coffee imports of the market against what Ecuador actually sells into it.</p>
+        <div class="chart-box mid"><canvas id="chart-detail-demand"></canvas></div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.8rem">
+      <h3 class="panel-title">Can we serve this market?</h3>
+      <p class="panel-sub">Operating conditions, scored 0–100 relative to the ten candidate markets.</p>
+      <div class="chart-box short"><canvas id="chart-detail-ops"></canvas></div>
+    </div>
+
+    <div class="facts" id="detail-facts"></div>
+
+    <div id="detail-certs"></div>
+
+    <div class="gapbox" id="detail-gaps"></div>
+  </section>
+
+  <section class="card">
+    <h2>Where Ecuador already sells — and what it takes to get in</h2>
+    <p class="lead">Every destination that recorded imports of the selected product, sized by export value. <b>Blue = one of the ten candidate markets</b> studied here; grey = a destination Ecuador reaches but that is outside this study. Click any marker for its export history and the requirements to enter that market.</p>
+    <div class="map-toolbar">
+      <label for="map-year">Year</label>
+      <select id="map-year"></select>
+      <span class="map-summary" id="map-summary"></span>
+    </div>
+    <div class="map-layout">
+      <div id="map"></div>
+      <div id="map-detail"><p class="map-placeholder">Click a destination on the map to see how much Ecuador ships there and which certifications it needs.</p></div>
+    </div>
+    <p class="chart-note" id="map-note"></p>
+  </section>
+
+  <section class="card">
+    <details class="method">
+      <summary>Method, scoring and known data gaps</summary>
+      <p id="method-text"></p>
+    </details>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    Data: UN Comtrade, FAOSTAT, World Bank (WDI, WGI, LPI and Commodity Markets "Pink Sheet"), plus web-sourced tariff research. Full citations and caveats in <code>data/SOURCES.md</code>. Built for the Economics of Globalization semester project — Coffee Sector, Ecuador.
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="data.js"></script>
+<script src="data-loader.js"></script>
+<script src="advisor.js"></script>
+</body>
+</html>

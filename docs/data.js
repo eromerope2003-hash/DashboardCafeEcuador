@@ -105,7 +105,7 @@ const EU_CERT = {
     { name: "Fairtrade", desc: "Germany is the world's largest Fairtrade coffee market by volume (~5.3% of German consumption is Fairtrade-certified, 2024)." },
     { name: "Rainforest Alliance", desc: "~15% of all Rainforest Alliance-certified coffee imports into the EU pass through the Netherlands (Port of Rotterdam)." },
   ],
-  gapNote: "No France-specific detail was found in this research pass (gap). All four EU countries share the same external tariff and the same regulatory framework (EUDR).",
+  gapNote: "France, Germany, the Netherlands and Belgium share one entry: all four apply the same EU external tariff and the same regulatory framework (EUDR). No France-specific national detail was found in this research pass (gap); the voluntary-certification evidence cited here comes from the German, Belgian and Dutch markets.",
 };
 CERTIFICATIONS.FRA = EU_CERT; CERTIFICATIONS.DEU = EU_CERT; CERTIFICATIONS.NLD = EU_CERT; CERTIFICATIONS.BEL = EU_CERT;
 
